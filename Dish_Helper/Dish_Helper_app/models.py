@@ -38,4 +38,6 @@ class Ingredient(models.Model):
 
 
 class IngredientMeasurement(models.Model):
-    pass
+    weight = models.PositiveSmallIntegerField()
+    ingredients = models.ManyToManyField('Ingredient')
+
