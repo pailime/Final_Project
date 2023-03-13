@@ -1,7 +1,22 @@
 from django.db import models
 
 
+class User(models.Model):
+    name = models.CharField(max_length=128, null=False)
+    last_name = models.CharField(max_length=256, null=False)
+    email = models.EmailField(null=False)
+
+
 class Meal(models.Model):
+    name = models.CharField(max_length=128, unique=True)
+    description = models.TextField()
+    recipe = models.TextField()
+    total_time = models.PositiveIntegerField()
+    # servings = models.PositiveSmallIntegerField()
+    ingredients = models.ManyToManyField('Ingredient')
+
+
+class TypeOfMeal(models.Model):
 
     CHOICES = [
         (0, 'breakfast & brunch'),
@@ -11,13 +26,7 @@ class Meal(models.Model):
         (4, 'cocktails'),
     ]
 
-    name = models.CharField(max_length=128, unique=True)
-    description = models.TextField()
-    recipe = models.TextField()
-    total_time = models.PositiveIntegerField()
-    # servings = models.PositiveSmallIntegerField()
     type_of_meal = models.IntegerField(choices=CHOICES)
-    ingredients = models.ManyToManyField('Ingredient')
 
 
 class Ingredient(models.Model):
@@ -28,3 +37,5 @@ class Ingredient(models.Model):
     protein = models.PositiveSmallIntegerField()
 
 
+class IngredientMeasurement(models.Model):
+    pass
