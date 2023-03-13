@@ -12,7 +12,7 @@ class Meal(models.Model):
     description = models.TextField()
     recipe = models.TextField()
     total_time = models.PositiveIntegerField()
-    # servings = models.PositiveSmallIntegerField()
+    servings = models.PositiveSmallIntegerField()
     ingredients = models.ManyToManyField('Ingredient')
 
 
@@ -39,5 +39,5 @@ class Ingredient(models.Model):
 
 class IngredientMeasurement(models.Model):
     weight = models.PositiveSmallIntegerField()
-    ingredients = models.ManyToManyField('Ingredient')
+    ingredient_id = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
 
