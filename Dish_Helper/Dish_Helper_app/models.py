@@ -40,4 +40,3 @@ class Ingredient(models.Model):
 class IngredientMeasurement(models.Model):
     weight = models.PositiveSmallIntegerField()
     ingredient_id = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-
