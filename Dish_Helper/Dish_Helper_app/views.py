@@ -3,3 +3,6 @@ from django.views import View
 
 from .models import User, Meal, TypeOfMeal, Ingredient, IngredientMeasurement
 
+
+class MainPageView(View):
+    pass

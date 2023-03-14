@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from Dish_Helper_app.view import MainPageView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', MainPageView.as_view(), name='base'),
 ]
