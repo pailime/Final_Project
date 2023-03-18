@@ -1,10 +1,11 @@
 from django.db import models
 
 
-class User(models.Model):
-    name = models.CharField(max_length=128, null=False)
-    last_name = models.CharField(max_length=256, null=False)
-    email = models.EmailField(null=False)
+# class Profile(models.Model):
+#     name = models.CharField(max_length=128, null=False)
+#     last_name = models.CharField(max_length=256, null=False)
+#     email = models.EmailField(null=False)
+#      OneToOne - User Django
 
 
 class Meal(models.Model):
@@ -13,7 +14,7 @@ class Meal(models.Model):
     recipe = models.TextField()
     total_time = models.PositiveIntegerField()
     servings = models.PositiveSmallIntegerField()
-    ingredients = models.ManyToManyField('Ingredient')
+    measurement = models.ManyToManyField('IngredientMeasurement')
 
 
 class TypeOfMeal(models.Model):
