@@ -26,6 +26,7 @@ class TypeOfMeal(models.Model):
     ]
 
     type_of_meal = models.IntegerField(choices=CHOICES)
+    type = models.ForeignKey(Meal, on_delete=models.CASCADE)
 
 
 class Ingredient(models.Model):
