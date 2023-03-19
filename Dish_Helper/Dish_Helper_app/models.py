@@ -1,11 +1,9 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
-# class Profile(models.Model):
-#     name = models.CharField(max_length=128, null=False)
-#     last_name = models.CharField(max_length=256, null=False)
-#     email = models.EmailField(null=False)
-#      OneToOne - User Django
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
 
 class Meal(models.Model):
