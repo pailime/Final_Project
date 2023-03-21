@@ -7,7 +7,13 @@ from .models import User, Meal, TypeOfMeal, Ingredient, IngredientMeasurement
 
 
 class MainPageView(View):
-    pass
+    def get(self, request):
+        meals = Meal.objects.all()
+        return render(
+            request,
+            'base.html',
+            context={'meals': meals}
+        )
 
 
 class AddMealView(View):
