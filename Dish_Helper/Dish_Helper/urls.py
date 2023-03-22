@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from Dish_Helper_app.views import MainPageView
+from Dish_Helper_app.views import MainPageView, AddMealView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', MainPageView.as_view(), name='base'),
+    path('add_meal/', AddMealView.as_view(), name='add_meal'),
 ]
