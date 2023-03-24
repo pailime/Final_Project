@@ -12,7 +12,7 @@ class MainPageView(View):
         meals = Meal.objects.all()
         return render(
             request,
-            'base.html',
+            'templates/Dish_Helper_app/base.html',
             context={'meals': meals}
         )
 
@@ -20,3 +20,8 @@ class MainPageView(View):
 class AddMealView(CreateView):
     model = Meal
     fields = ['name', 'description', 'recipe', 'total_time', 'servings', 'measurement']
+
+
+class AddTypeOfMealView(CreateView):
+    model = TypeOfMeal
+    fields = ['type_of_meal']
