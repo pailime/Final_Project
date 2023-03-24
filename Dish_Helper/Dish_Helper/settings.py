@@ -55,7 +55,7 @@ ROOT_URLCONF = 'Dish_Helper.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR, 'templates', 'templates/Dish_Helper_app'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

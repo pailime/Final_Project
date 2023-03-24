@@ -17,6 +17,9 @@ class Meal(models.Model):
     servings = models.PositiveSmallIntegerField()
     measurement = models.ManyToManyField('IngredientMeasurement')
 
+    def __str__(self):
+        return self.measurement
+
 
 class TypeOfMeal(models.Model):
 
