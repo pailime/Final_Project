@@ -1,0 +1,24 @@
+{% extends 'templates/Dish_Helper_app/base.html' %}
+
+{% block content %}
+    <h2>Login</h2>
+    {% if error_msg %}
+        <p class="error">{{ error_msg }}</p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required autofocus>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div class="form-group">
+            <label for="remember_me">Remember me:</label>
+            <input type="checkbox" id="remember_me" name="remember_me">
+        </div>
+        <button type="submit">Login</button>
+    </form>
+{% endblock %}
