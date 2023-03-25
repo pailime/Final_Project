@@ -22,7 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', MainPageView.as_view(), name='base'),
     path('add_meal/', AddMealView.as_view(), name='add_meal'),
-    path('add_type/<id:int>/', AddTypeOfMealView.as_view(), name='add_type'),
+    path('add_type/', AddTypeOfMealView.as_view(), name='add_type'),
     path('add_ingredient/', AddIngredientView.as_view(), name='add_ingredient'),
-    path('add_measurement/<id:int>', AddIngredientMeasurementView.as_view(), name='add_measurement')
+    path('add_measurement/', AddIngredientMeasurementView.as_view(), name='add_measurement')
 ]
