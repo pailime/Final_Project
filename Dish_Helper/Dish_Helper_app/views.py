@@ -25,3 +25,14 @@ class AddMealView(CreateView):
 class AddTypeOfMealView(CreateView):
     model = TypeOfMeal
     fields = ['type_of_meal']
+
+
+class AddIngredientView(CreateView):
+    model = Ingredient
+    fields = ['name', 'calories', 'fat', 'carbs', 'protein']
+
+
+class AddIngredientMeasurementView(CreateView):
+    model = IngredientMeasurement
+    fields = ['weight']
+
