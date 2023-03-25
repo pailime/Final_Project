@@ -31,9 +31,15 @@ class ProfileLoginView(LoginView):
         return response
 
 
-class AddMealView(CreateView):
-    model = Meal
-    fields = ['name', 'description', 'recipe', 'total_time', 'servings', 'measurement']
+class AddMealView(View):
+    meal = Meal.objects.all()
+    type = TypeOfMeal.objects.all()
+    ingredient = Ingredient.objects.all()
+    measurement = IngredientMeasurement.objects.all()
+    pass
+
+    # model = Meal
+    # fields = ['name', 'description', 'recipe', 'total_time', 'servings', 'measurement']
 
 
 class AddTypeOfMealView(CreateView):
