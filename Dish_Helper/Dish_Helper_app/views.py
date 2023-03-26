@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import CreateView, FormView
 
+from .forms import UserRegisterForm
 from .models import Profile, Meal, TypeOfMeal, Ingredient, IngredientMeasurement
 
 
@@ -36,14 +37,14 @@ class ProfileLoginView(FormView):
 
 class ProfileRegisterView(View):
     def post(self, request):
-        form = UserCreationForm(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, f'Your account has been created. You can log in now!')
             return redirect('login')
 
     def get(self, request):
-        form = UserCreationForm()
+        form = UserRegisterForm()
         context = {'form': form}
         return render(request, 'register.html', context)
 

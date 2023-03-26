@@ -4,7 +4,14 @@
     <h3>Register here</h3>
     <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {% for field in form %}
+        <div>
+            <p>{{ field.label }}: {{ field }}</p>
+            {% for error in field.errors %}
+                <small style="color: red">{{ error }}</small>
+            {% endfor %}
+        </div>
+    {% endfor %}
     <input type="submit" value="SAVE">
     </form>
 
