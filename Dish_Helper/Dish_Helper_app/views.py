@@ -1,10 +1,11 @@
-from django.contrib.auth.views import LoginView
-from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
-from django.template import loader
-from django.urls import reverse_lazy
+from urllib import request
+
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic import CreateView
+from django.views.generic import CreateView, FormView
 
 from .models import Profile, Meal, TypeOfMeal, Ingredient, IngredientMeasurement
 
@@ -19,27 +20,43 @@ class MainPageView(View):
         )
 
 
-class ProfileLoginView(LoginView):
+class ProfileLoginView(FormView):
     template_name = 'profile_form.html'
-    success_url = reverse_lazy('base')
+    success_url = 'base'
 
     def form_valid(self, form):
-        response = super().form_valid(form)
+        user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
         remember_me = form.cleaned_data.get('remember_me')
+        if user is not None:
+            login(self, request, user)
         if not remember_me:
             self.request.session.set_expiry(0)
-        return response
+        return super().form_valid(form)
 
 
-class AddMealView(View):
-    meal = Meal.objects.all()
-    type = TypeOfMeal.objects.all()
-    ingredient = Ingredient.objects.all()
-    measurement = IngredientMeasurement.objects.all()
-    pass
+class ProfileRegisterView(View):
+    def post(self, request):
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Your account has been created. You can log in now!')
+            return redirect('login')
+        else:
+            form = UserCreationForm()
 
-    # model = Meal
-    # fields = ['name', 'description', 'recipe', 'total_time', 'servings', 'measurement']
+        context = {'form': form}
+        return render(request, 'register.html', context)
+
+
+class AddMealView(CreateView):
+    # meal = Meal.objects.all()
+    # type = TypeOfMeal.objects.all()
+    # ingredient = Ingredient.objects.all()
+    # measurement = IngredientMeasurement.objects.all()
+    # pass
+
+    model = Meal
+    fields = ['name', 'description', 'recipe', 'total_time', 'servings', 'measurement']
 
 
 class AddTypeOfMealView(CreateView):
