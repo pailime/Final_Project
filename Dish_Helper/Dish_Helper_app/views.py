@@ -40,8 +40,9 @@ class ProfileRegisterView(View):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, f'Your account has been created. You can log in now!')
-            return redirect('login')
+            return redirect('base')
+        else:
+            return redirect('register')
 
     def get(self, request):
         form = UserRegisterForm()
