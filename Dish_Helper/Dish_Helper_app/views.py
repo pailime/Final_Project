@@ -41,9 +41,9 @@ class ProfileRegisterView(View):
             form.save()
             messages.success(request, f'Your account has been created. You can log in now!')
             return redirect('login')
-        else:
-            form = UserCreationForm()
 
+    def get(self, request):
+        form = UserCreationForm()
         context = {'form': form}
         return render(request, 'register.html', context)
 
