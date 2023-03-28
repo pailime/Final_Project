@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import CreateView, FormView
 
-from .forms import UserRegisterForm, MealForm
+from .forms import UserRegisterForm
 from .models import Profile, Meal, TypeOfMeal, Ingredient, IngredientMeasurement
 
 
