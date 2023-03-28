@@ -50,27 +50,9 @@ class ProfileRegisterView(View):
         return render(request, 'register.html', context)
 
 
-class AddMealView(View):
-    def get(self, request):
-        meal_form = MealForm()
-        context = {'meal_form': meal_form}
-        return render(request, 'create_meal.html', context)
-
-    def post(self, request):
-        meal_form = MealForm(request.POST)
-        if meal_form.is_valid():
-            name = meal_form.cleaned_data['name']
-            description = meal_form.cleaned_data['description']
-            recipe = meal_form.cleaned_data['recipe']
-            total_time = meal_form.cleaned_data['total_time']
-            servings = meal_form.cleaned_data['servings']
-            measurement = meal_form.cleaned_data['measurement']
-            # meal = Meal.objects.create(name=name, description=description, recipe=recipe,
-            #                                  total_time=total_time, servings=servings, measurement=measurement)
-            return redirect('meal-detail') #, meal_id=meal.id)
-
-    # model = Meal
-    # fields = ['name', 'description', 'recipe', 'total_time', 'servings', 'measurement']
+class AddMealView(CreateView):
+    model = Meal
+    fields = ['name', 'description', 'recipe', 'total_time', 'servings', 'measurement']
 
 
 class AddTypeOfMealView(CreateView):
