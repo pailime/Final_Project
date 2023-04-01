@@ -18,7 +18,7 @@ class Meal(models.Model):
     measurement = models.ManyToManyField('Ingredient', through='IngredientMeasurement')
 
     def __str__(self):
-        return self.measurement
+        return self.measurement, self.name
 
 
 class TypeOfMeal(models.Model):
@@ -42,8 +42,14 @@ class Ingredient(models.Model):
     carbs = models.PositiveSmallIntegerField()
     protein = models.PositiveSmallIntegerField()
 
+    def __str__(self):
+        return self.name
+
 
 class IngredientMeasurement(models.Model):
     weight = models.PositiveSmallIntegerField()
     ingredient_id = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     meal_id = models.ForeignKey(Meal, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.weight
