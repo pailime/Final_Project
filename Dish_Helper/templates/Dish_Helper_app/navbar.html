@@ -27,6 +27,23 @@
                 </ul>
               </div>
           {% endif %}
+          {% if user.is_authenticated %}
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Creator
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'add_meal' %}">Create meal</a></li>
+                    <li><a class="dropdown-item" href="{% url 'add_type' %}">Add type</a></li>
+                    <li><a class="dropdown-item" href="{% url 'add_ingredient' %}">Add ingredient</a></li>
+                    <li><a class="dropdown-item" href="{% url 'add_measurement' %}">Add measurement</a></li>
+                </ul>
+              </div>
+          {% else %}
+              <li class="nav-item">
+                <a class="nav-link disabled">Disabled</a>
+              </li>
+          {% endif %}
       </ul>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
