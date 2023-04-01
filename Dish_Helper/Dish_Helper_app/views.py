@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, FormView
 
@@ -52,20 +53,42 @@ class ProfileRegisterView(View):
 
 class AddMealView(CreateView):
     model = Meal
-    fields = ['name', 'description', 'recipe', 'total_time', 'servings', 'measurement']
+    fields = ['name', 'description', 'recipe', 'total_time', 'servings']
+    success_url = reverse_lazy('base')
 
 
 class AddTypeOfMealView(CreateView):
     model = TypeOfMeal
     fields = ['type_of_meal']
+    success_url = reverse_lazy('base')
 
 
 class AddIngredientView(CreateView):
     model = Ingredient
     fields = ['name', 'calories', 'fat', 'carbs', 'protein']
+    success_url = reverse_lazy('base')
 
 
-class AddIngredientMeasurementView(CreateView):
+class AddIngredientMeasurementView(View):
     model = IngredientMeasurement
     fields = ['weight']
+    success_url = reverse_lazy('base')
+
+
+# class MealSearchView(View):
+#     def get(self, request):
+#         search_form = MealSearchForm()
+#         context = {'search_form': search_form, 'meals': 'empty'}
+#         return render(request, 'navbar.html', context)
+#
+#     def post(self, request):
+#         search_form = MealSearchForm(request.POST)
+#         if search_form.is_valid():
+#             name = search_form.cleaned_data['name']
+#             meals = Meal.objects.filter(name__icontains=name)
+#             return render(request, 'navbar.html',
+#                           context={'meals': meals, 'search_form': search_form})
+#         else:
+#             context = {'search_form': search_form, 'meals': 'empty'}
+#             return render(request, 'navbar.html', context)
 
