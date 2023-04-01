@@ -87,13 +87,13 @@ class AddIngredientMeasurementView(View):
             weight = measurement_form.cleaned_data['weight']
             ingredient_id = measurement_form.cleaned_data['ingredient_id']
             meal_id = measurement_form.cleaned_data['meal_id']
-            return render(request, 'base.html',
-                          context={
-                              'weight': weight, 'ingredient_id': ingredient_id, 'meal_id': meal_id,
-                          })
+            measure = IngredientMeasurement.objects.create(weight=weight, ingredient_id=ingredient_id, meal_id=meal_id)
+            context = {'measurement_form': measurement_form, 'measure': measure, 'weight': weight,
+                       'ingredient_id': ingredient_id, 'meal_id': meal_id,}
+            return render(request, 'base.html', context)
         else:
             context = {'measurement_form': measurement_form}
-            return render(request, 'addingredientmeasurement.html_form', context)
+            return render(request, 'addingredientmeasurement_form.html', context)
 
 
 # class MealSearchView(View):
