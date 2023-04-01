@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, FormView
 
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, AddIngredientMeasurementForm
 from .models import Profile, Meal, TypeOfMeal, Ingredient, IngredientMeasurement
 
 
@@ -69,10 +69,31 @@ class AddIngredientView(CreateView):
     success_url = reverse_lazy('base')
 
 
+# class AddIngredientMeasurementView(CreateView):
+#     model = IngredientMeasurement
+#     fields = ['weight']
+#     success_url = reverse_lazy('base')
+
+
 class AddIngredientMeasurementView(View):
-    model = IngredientMeasurement
-    fields = ['weight']
-    success_url = reverse_lazy('base')
+    def get(self, request):
+        measurement_form = AddIngredientMeasurementForm()
+        context = {'measurement_form': measurement_form}
+        return render(request, 'addingredientmeasurement_form.html', context)
+
+    def post(self, request):
+        measurement_form = AddIngredientMeasurementForm(request.POST)
+        if measurement_form.is_valid():
+            weight = measurement_form.cleaned_data['weight']
+            ingredient_id = measurement_form.cleaned_data['ingredient_id']
+            meal_id = measurement_form.cleaned_data['meal_id']
+            return render(request, 'base.html',
+                          context={
+                              'weight': weight, 'ingredient_id': ingredient_id, 'meal_id': meal_id,
+                          })
+        else:
+            context = {'measurement_form': measurement_form}
+            return render(request, 'addingredientmeasurement.html_form', context)
 
 
 # class MealSearchView(View):
