@@ -1,3 +1,4 @@
+import random
 from urllib import request
 
 from django.contrib.auth import authenticate, login
@@ -14,11 +15,14 @@ from .models import Profile, Meal, TypeOfMeal, Ingredient, IngredientMeasurement
 
 class MainPageView(View):
     def get(self, request):
-        meals = Meal.objects.all()
+        meals = list(Meal.objects.all())
+        for meal in range(3):
+            random.shuffle(meals)
+        meal1 = meals[0]
         return render(
             request,
             'templates/Dish_Helper_app/base.html',
-            context={'meals': meals}
+            context={'meals': meals, 'meal1': meal1}
         )
 
 
@@ -28,11 +32,8 @@ class ProfileLoginView(FormView):
 
     def form_valid(self, form):
         user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-        remember_me = form.cleaned_data.get('remember_me')
         if user is not None:
             login(self, request, user)
-        if not remember_me:
-            self.request.session.set_expiry(0)
         return super().form_valid(form)
 
 
@@ -53,13 +54,13 @@ class ProfileRegisterView(View):
 
 class AddMealView(CreateView):
     model = Meal
-    fields = ['name', 'description', 'recipe', 'total_time', 'servings']
+    fields = ['name', 'description', 'recipe', 'total_time', 'servings', 'measurement']
     success_url = reverse_lazy('base')
 
 
 class AddTypeOfMealView(CreateView):
     model = TypeOfMeal
-    fields = ['type_of_meal']
+    fields = ['type_of_meal', 'meal']
     success_url = reverse_lazy('base')
 
 
@@ -69,31 +70,29 @@ class AddIngredientView(CreateView):
     success_url = reverse_lazy('base')
 
 
-# class AddIngredientMeasurementView(CreateView):
-#     model = IngredientMeasurement
-#     fields = ['weight']
-#     success_url = reverse_lazy('base')
+class AddIngredientMeasurementView(CreateView):
+    model = IngredientMeasurement
+    fields = ['weight', 'ingredient_id', 'meal_id']
+    success_url = reverse_lazy('base')
 
 
-class AddIngredientMeasurementView(View):
-    def get(self, request):
-        measurement_form = AddIngredientMeasurementForm()
-        context = {'measurement_form': measurement_form}
-        return render(request, 'addingredientmeasurement_form.html', context)
-
-    def post(self, request):
-        measurement_form = AddIngredientMeasurementForm(request.POST)
-        if measurement_form.is_valid():
-            weight = measurement_form.cleaned_data['weight']
-            ingredient_id = measurement_form.cleaned_data['ingredient_id']
-            meal_id = measurement_form.cleaned_data['meal_id']
-            measure = IngredientMeasurement.objects.create(weight=weight, ingredient_id=ingredient_id, meal_id=meal_id)
-            context = {'measurement_form': measurement_form, 'measure': measure, 'weight': weight,
-                       'ingredient_id': ingredient_id, 'meal_id': meal_id,}
-            return render(request, 'base.html', context)
-        else:
-            context = {'measurement_form': measurement_form}
-            return render(request, 'addingredientmeasurement_form.html', context)
+# class AddIngredientMeasurementView(View):
+#     def get(self, request):
+#         measurement_form = AddIngredientMeasurementForm()
+#         context = {'measurement_form': measurement_form}
+#         return render(request, 'addingredientmeasurement_form.html', context)
+#
+#     def post(self, request):
+#         measurement_form = AddIngredientMeasurementForm(request.POST)
+#         if measurement_form.is_valid():
+#             weight = measurement_form.cleaned_data['weight']
+#             ingredient_id = measurement_form.cleaned_data['ingredient_id']
+#             meal_id = measurement_form.cleaned_data['meal_id']
+#             measure = IngredientMeasurement.objects.create(weight=weight, ingredient_id=ingredient_id, meal_id=meal_id)
+#             return redirect('base')
+#         else:
+#             context = {'measurement_form': measurement_form}
+#             return render(request, 'addingredientmeasurement_form.html', context)
 
 
 # class MealSearchView(View):
