@@ -1,5 +1,15 @@
 {% extends 'templates/Dish_Helper_app/base.html' %}
 
 {% block content %}
+    <h3>Here we are!</h3><br>
+    <h4>This page will help you prepare a meal with the ingredients you have at home.<br>
+    Let me help you!<br>
+    Choose the ingredients you have from the list of ingredients, and we will suggest a dish that you can prepare with them.<br>
+    Enjoy your meal!</h4><br><br>
 
+    <a href='mealdetail/{{ meal.id }}/'>Meal details</a>
+
+    <h4>Below you will find a sample meal from our website :)</h4><br><br>
+    <p>{{ meal1.name }}</p>
+    <p>{{ meal1.description }}</p>
 {% endblock %}

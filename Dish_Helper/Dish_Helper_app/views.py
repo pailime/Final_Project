@@ -14,14 +14,22 @@ from .models import Meal, TypeOfMeal, Ingredient, IngredientMeasurement
 class MainPageView(View):
     def get(self, request):
         meals = list(Meal.objects.all())
-        for meal in range(3):
+        for m in meals:
             random.shuffle(meals)
         meal1 = meals[0]
         return render(
             request,
-            'templates/Dish_Helper_app/base.html',
+            'templates/Dish_Helper_app/home_page.html',
             context={'meals': meals, 'meal1': meal1}
         )
+
+
+class MealDetailView(View):
+    def get(self, request, id):
+        meal_id = int(id)
+        meal = Meal.objects.get(id=meal_id)
+        context = {'meal': meal}
+        return render(request, 'mealdetail.html', context)
 
 
 class ProfileLoginView(FormView):

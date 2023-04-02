@@ -19,7 +19,7 @@ from django.urls import path
 
 
 from Dish_Helper_app.views import MainPageView, AddMealView, AddTypeOfMealView, AddIngredientView, \
-    AddIngredientMeasurementView, ProfileLoginView, ProfileRegisterView
+    AddIngredientMeasurementView, ProfileLoginView, ProfileRegisterView, MealDetailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,5 +30,6 @@ urlpatterns = [
     path('add_meal/', AddMealView.as_view(), name='add_meal'),
     path('add_type/', AddTypeOfMealView.as_view(), name='add_type'),
     path('add_ingredient/', AddIngredientView.as_view(), name='add_ingredient'),
-    path('add_measurement/', AddIngredientMeasurementView.as_view(), name='add_measurement')
+    path('add_measurement/', AddIngredientMeasurementView.as_view(), name='add_measurement'),
+    path('mealdetail/<int:id>/', MealDetailView.as_view(), name='mealdetail')
 ]
