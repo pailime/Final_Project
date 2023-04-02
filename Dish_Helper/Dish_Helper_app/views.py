@@ -1,16 +1,14 @@
-import random
+import random, pytest
 from urllib import request
 
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, FormView
 
-from .forms import UserRegisterForm, AddIngredientMeasurementForm
-from .models import Profile, Meal, TypeOfMeal, Ingredient, IngredientMeasurement
+from .forms import UserRegisterForm
+from .models import Meal, TypeOfMeal, Ingredient, IngredientMeasurement
 
 
 class MainPageView(View):

@@ -18,8 +18,8 @@ from django.contrib.auth import views as auth_views
 from django.urls import path
 
 
-from Dish_Helper_app.views import MainPageView, AddMealView, AddTypeOfMealView, AddIngredientView, AddIngredientMeasurementView, \
-ProfileLoginView, ProfileRegisterView
+from Dish_Helper_app.views import MainPageView, AddMealView, AddTypeOfMealView, AddIngredientView, \
+    AddIngredientMeasurementView, ProfileLoginView, ProfileRegisterView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
