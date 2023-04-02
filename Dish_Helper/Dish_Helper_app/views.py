@@ -11,6 +11,7 @@ from .forms import UserRegisterForm
 from .models import Meal, TypeOfMeal, Ingredient, IngredientMeasurement
 
 
+# View where authenticated User can find meal when choose ingredient
 class MainPageView(View):
     def get(self, request):
         meals = list(Meal.objects.all())
@@ -35,6 +36,7 @@ class MainPageView(View):
         )
 
 
+# View with random meal details
 class MealDetailView(View):
     def get(self, request, id):
         meal_id = int(id)
@@ -43,6 +45,7 @@ class MealDetailView(View):
         return render(request, 'mealdetail.html', context)
 
 
+# Profile user view
 class ProfileLoginView(FormView):
     template_name = 'profile_form.html'
     success_url = 'base'
@@ -54,6 +57,7 @@ class ProfileLoginView(FormView):
         return super().form_valid(form)
 
 
+# Registration view
 class ProfileRegisterView(View):
     def post(self, request):
         form = UserRegisterForm(request.POST)
@@ -69,24 +73,28 @@ class ProfileRegisterView(View):
         return render(request, 'register.html', context)
 
 
+# View where authenticated user can add meal
 class AddMealView(CreateView):
     model = Meal
     fields = ['name', 'description', 'recipe', 'total_time', 'servings', 'measurement']
     success_url = reverse_lazy('base')
 
 
+# View where authenticated user can add type of meal
 class AddTypeOfMealView(CreateView):
     model = TypeOfMeal
     fields = ['type_of_meal', 'meal']
     success_url = reverse_lazy('base')
 
 
+# View where authenticated user can add ingredient
 class AddIngredientView(CreateView):
     model = Ingredient
     fields = ['name', 'calories', 'fat', 'carbs', 'protein']
     success_url = reverse_lazy('base')
 
 
+# View where authenticated user can add ingredient measurement
 class AddIngredientMeasurementView(CreateView):
     model = IngredientMeasurement
     fields = ['weight', 'ingredient_id', 'meal_id']
