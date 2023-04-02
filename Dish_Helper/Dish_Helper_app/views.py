@@ -2,8 +2,10 @@ import random, pytest
 from urllib import request
 
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, FormView
 
@@ -14,13 +16,24 @@ from .models import Meal, TypeOfMeal, Ingredient, IngredientMeasurement
 class MainPageView(View):
     def get(self, request):
         meals = list(Meal.objects.all())
+        ingredients = Ingredient.objects.all()
         for m in meals:
             random.shuffle(meals)
         meal1 = meals[0]
         return render(
             request,
             'templates/Dish_Helper_app/home_page.html',
-            context={'meals': meals, 'meal1': meal1}
+            context={'meals': meals, 'meal1': meal1, 'ingredients': ingredients}
+        )
+
+    def post(self, request):
+        ingredient_id = request.POST.get('ingredient')
+        ingredient = Ingredient.objects.get(pk=ingredient_id)
+        meals = Meal.objects.filter(ingredientmeasurement__ingredient_id=ingredient)
+        return render(
+            request,
+            'templates/Dish_Helper_app/home_page.html',
+            context={'meals': meals, 'ingredient': ingredient}
         )
 
 

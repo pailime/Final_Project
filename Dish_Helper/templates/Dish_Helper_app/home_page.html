@@ -7,9 +7,43 @@
     Choose the ingredients you have from the list of ingredients, and we will suggest a dish that you can prepare with them.<br>
     Enjoy your meal!</h4><br><br>
 
-    <a href='mealdetail/{{ meal.id }}/'>Meal details</a>
+    {% if user.is_authenticated %}
+    <form method="post">
+		{% csrf_token %}
+		<label for="ingredient">Select an ingredient:</label>
+		<select name="ingredient" id="ingredient">
+			{% for ingredient in ingredients %}
+			<option value="{{ ingredient.id }}">{{ ingredient.name }}</option>
+			{% endfor %}
+		</select><br><br>
+        <input type="submit" value="Search"><br><br>
+	</form>
+    {% if ingredient %}
+		<h2>Meals that contain {{ ingredient.name }}:</h2>
+		{% if meals %}
+			<ul>
+			{% for meal in meals %}
+				<li>
+					<h3>Name: {{ meal.name }}</h3>
+					<p>Description: {{ meal.description }}</p>
+                    <a href='mealdetail/{{ meal.id }}/'>Meal details</a>
+				</li>
+			{% endfor %}
+			</ul>
+		{% else %}
+			<p>No meals found.</p>
+		{% endif %}
+	{% endif %}
+        <br><br><br><br>
+    {% else %}
+        <a href="{% url 'login' %}">Please Login</a><br><br><br><br>
+    {% endif %}
 
-    <h4>Below you will find a sample meal from our website :)</h4><br><br>
-    <p>{{ meal1.name }}</p>
-    <p>{{ meal1.description }}</p>
+    <h4>Below you will find a sample meal from our website :)</h4><br>
+    <p>Name: {{ meal1.name }}</p>
+    <p>Description: {{ meal1.description }}</p>
+    {% if user.is_authenticated %}
+        <a href='mealdetail/{{ meal1.id }}/'>Meal details</a>
+    {% endif %}
+
 {% endblock %}
