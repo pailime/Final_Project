@@ -32,7 +32,7 @@ class TypeOfMeal(models.Model):
     ]
 
     type_of_meal = models.IntegerField(choices=CHOICES)
-    meal = models.ForeignKey(Meal, on_delete=models.CASCADE, null=True)
+    type = models.ForeignKey(Meal, on_delete=models.CASCADE, null=True)
 
 
 class Ingredient(models.Model):
@@ -47,7 +47,7 @@ class Ingredient(models.Model):
 
 
 class IngredientMeasurement(models.Model):
-    weight = models.PositiveSmallIntegerField(null=True)
+    weight = models.PositiveSmallIntegerField()
     ingredient_id = models.ForeignKey(Ingredient, on_delete=models.CASCADE, null=True)
     meal_id = models.ForeignKey(Meal, on_delete=models.CASCADE, null=True)
 
