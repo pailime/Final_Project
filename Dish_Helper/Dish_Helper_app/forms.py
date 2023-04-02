@@ -27,3 +27,4 @@ class AddIngredientMeasurementForm(forms.Form):
         queryset=Meal.objects.all(),
         widget=forms.Select
     )
+
