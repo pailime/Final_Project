@@ -18,22 +18,22 @@
 		</select><br><br>
         <input type="submit" value="Search"><br><br>
 	</form>
-    {% if ingredient %}
-		<h2>Meals that contain {{ ingredient.name }}:</h2>
-		{% if meals %}
-			<ul>
-			{% for meal in meals %}
-				<li>
-					<h3>Name: {{ meal.name }}</h3>
-					<p>Description: {{ meal.description }}</p>
-                    <a href='mealdetail/{{ meal.id }}/'>Meal details</a>
-				</li>
-			{% endfor %}
-			</ul>
-		{% else %}
-			<p>No meals found.</p>
-		{% endif %}
-	{% endif %}
+        {% if ingredient %}
+		    <h2>Meals that contain {{ ingredient.name }}:</h2>
+		    {% if meals %}
+			    <ul>
+			    {% for meal in meals %}
+				    <li>
+					    <h3>Name: {{ meal.name }}</h3>
+					    <p>Description: {{ meal.description }}</p>
+                        <a href='mealdetail/{{ meal.id }}/'>Meal details</a>
+				    </li>
+			    {% endfor %}
+			    </ul>
+		    {% else %}
+			    <p>No meals found.</p>
+		    {% endif %}
+	    {% endif %}
         <br><br><br><br>
     {% else %}
         <a href="{% url 'login' %}">Please Login</a><br><br><br><br>
@@ -42,8 +42,14 @@
     <h4>Below you will find a sample meal from our website :)</h4><br>
     <p>Name: {{ meal1.name }}</p>
     <p>Description: {{ meal1.description }}</p>
+
     {% if user.is_authenticated %}
-        <a href='mealdetail/{{ meal1.id }}/'>Meal details</a>
+        <a href='mealdetail/{{ meal1.id }}/'>Meal details</a><br><br>
+    {% else %}
+        <h4>You need to be logged in, to see Meal details.</h4>
+        <a href="{% url 'login' %}">---> Login</a><br>
+        <a href="{% url 'register' %}">---> Register</a><br>
+        <a href="{% url 'base' %}"><--- Or go back to home.</a>
     {% endif %}
 
 {% endblock %}
