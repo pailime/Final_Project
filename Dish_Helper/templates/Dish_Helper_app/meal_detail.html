@@ -1,0 +1,17 @@
+{% extends 'templates/Dish_Helper_app/base.html' %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        Name: {{ meal.name }}<br>
+        Description: {{ meal.description }}<br>
+        Recipe: {{ meal.recipe }}<br>
+        Total time: {{ meal.total_time }}<br>
+        Servings: {{ meal.servings }}<br>
+        Ingredients: {{ meal.measurement }}<br>
+    {% else %}
+        <h3>You need to be logged in, to see Meal details.</h3><br><br>
+        <a href="{% url 'login' %}">---> Login</a><br>
+        <a href="{% url 'register' %}">---> Register</a><br>
+        <a href="{% url 'base' %}"><--- Or go back to home.</a>
+    {% endif %}
+{% endblock %}
