@@ -19,13 +19,13 @@ from django.urls import path
 
 
 from Dish_Helper_app.views import MainPageView, AddMealView, AddTypeOfMealView, AddIngredientView, \
-    AddIngredientMeasurementView, ProfileLoginView, ProfileRegisterView, MealDetailView
+    AddIngredientMeasurementView, ProfileRegisterView, MealDetailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', MainPageView.as_view(), name='base'),
-    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
+    path('login/', auth_views.LoginView.as_view(template_name='templates/Dish_Helper_app/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='templates/Dish_Helper_app/logout.html'), name='logout'),
     path('register/', ProfileRegisterView.as_view(), name='register'),
     path('add_meal/', AddMealView.as_view(), name='add_meal'),
     path('add_type/', AddTypeOfMealView.as_view(), name='add_type'),
