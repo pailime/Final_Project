@@ -34,6 +34,9 @@ class TypeOfMeal(models.Model):
     type_of_meal = models.IntegerField(choices=CHOICES)
     meal = models.ForeignKey(Meal, on_delete=models.CASCADE, null=True)
 
+    def __str__(self):
+        return self.type_of_meal
+
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=128, unique=True)
