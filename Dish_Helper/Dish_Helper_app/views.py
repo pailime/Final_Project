@@ -3,7 +3,7 @@ from urllib import request
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, FormView
@@ -36,12 +36,18 @@ class MainPageView(View):
         )
 
 
-# View with random meal details
+# View with random meal details for authenticated user
 class MealDetailView(View):
     def get(self, request, id):
         meal_id = int(id)
-        meal = Meal.objects.get(id=meal_id)
-        context = {'meal': meal}
+        meal = get_object_or_404(Meal, id=meal_id)
+        type = TypeOfMeal.objects.filter(meal=meal).first()
+        ingredients = meal.measurement.all()
+        context = {
+            'meal': meal,
+            'type': type,
+            'ingredients': ingredients,
+        }
         return render(request, 'templates/Dish_Helper_app/meal_detail.html', context)
 
 
