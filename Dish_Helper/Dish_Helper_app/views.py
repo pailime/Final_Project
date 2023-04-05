@@ -42,11 +42,13 @@ class MealDetailView(View):
         meal_id = int(id)
         meal = get_object_or_404(Meal, id=meal_id)
         type = TypeOfMeal.objects.filter(meal=meal).first()
-        ingredients = meal.measurement.all()
+        ingredients = Ingredient.objects.filter(meal=meal)
+        measure = IngredientMeasurement.objects.filter(meal_id=meal)
         context = {
             'meal': meal,
             'type': type,
             'ingredients': ingredients,
+            'measure': measure
         }
         return render(request, 'templates/Dish_Helper_app/meal_detail.html', context)
 
