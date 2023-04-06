@@ -28,3 +28,5 @@ def test_login(client, user_data, user):
     assert response.status_code == 302
     assert response.url == reverse('base')
     assert client.login(**user_data) is True
+
+
