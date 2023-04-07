@@ -86,3 +86,7 @@ class AddMealViewTest(TestCase):
         response = self.client.get('/add_meal/')
         self.assertEqual(response.status_code, 200)
 
+    def test_view_url_reverse(self):
+        response = self.client.get(reverse('base'))
+        self.assertEqual(response.status_code, 200)
+
