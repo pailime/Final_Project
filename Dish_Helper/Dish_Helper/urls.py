@@ -27,7 +27,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='templates/Dish_Helper_app/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='templates/Dish_Helper_app/logout.html'), name='logout'),
     path('register/', ProfileRegisterView.as_view(), name='register'),
-    path('add_meal/', AddMealView.as_view(), name='add_meal'),
+    path('add_meal/', AddMealView.as_view(template_name='templates/Dish_Helper_app/meal_form.html'), name='add_meal'),
     path('add_type/', AddTypeOfMealView.as_view(), name='add_type'),
     path('add_ingredient/', AddIngredientView.as_view(), name='add_ingredient'),
     path('add_measurement/', AddIngredientMeasurementView.as_view(), name='add_measurement'),
