@@ -14,15 +14,17 @@ from .models import Meal, TypeOfMeal, Ingredient, IngredientMeasurement
 
 # View where authenticated User can find meal when choose ingredient
 class MainPageView(View):
+    def get_random_meal(self):
+        return Meal.objects.order_by('?').first()
+
     def get(self, request):
         meals = list(Meal.objects.all())
         ingredients = Ingredient.objects.all()
-        random.shuffle(meals)
-        meal1 = meals[0]
+        random_meal = self.get_random_meal()
         return render(
             request,
             'templates/Dish_Helper_app/home_page.html',
-            context={'meals': meals, 'meal1': meal1, 'ingredients': ingredients}
+            context={'meals': meals, 'random_meal': random_meal, 'ingredients': ingredients}
         )
 
     def post(self, request):
