@@ -46,34 +46,59 @@ def test_home_page(client, user):
 
 @pytest.mark.django_db
 def test_add_meal(client, user, meal):
-    response1 = client.get('/add_meal/')
-    assert response1.status_code == 302
-    assert response1.url == ('/login/?next=/add_meal/')
+    response = client.get('/add_meal/')
+    assert response.status_code == 302
+    assert response.url == ('/login/?next=/add_meal/')
     client.force_login(user)
-    response3 = client.get('/add_meal/')
-    assert response3.status_code == 200
-    response4 = client.post(reverse('add_meal'), meal=meal)
-    assert response4.status_code == 200
+    response1 = client.get('/add_meal/')
+    assert response1.status_code == 200
+    response2 = client.post(reverse('add_meal'), meal=meal)
+    assert response2.status_code == 200
     assert Meal.objects.get(name=meal.name)
+    print(meal.name)
     assert meal is not None
 
 
-
 @pytest.mark.django_db
-def test_add_type_url(client):
+def test_add_type(client, user, type_of_meal):
     response = client.get('/add_type/')
     assert response.status_code == 302
+    assert response.url == ('/login/?next=/add_type/')
+    client.force_login(user)
+    response1 = client.get('/add_type/')
+    assert response1.status_code == 200
+    response2 = client.post(reverse('add_type'), type_of_meal=type_of_meal)
+    assert response2.status_code == 200
+    assert TypeOfMeal.objects.get(id=type_of_meal.id)
+    assert type_of_meal is not None
 
 
 @pytest.mark.django_db
-def test_add_ingredient_url(client):
+def test_add_ingredient_url(client, user, ingredient):
     response = client.get('/add_ingredient/')
     assert response.status_code == 302
+    assert response.url == ('/login/?next=/add_ingredient/')
+    client.force_login(user)
+    response1 = client.get('/add_ingredient/')
+    assert response1.status_code == 200
+    response2 = client.post(reverse('add_ingredient'), ingredient=ingredient)
+    assert response2.status_code == 200
+    assert Ingredient.objects.get(name=ingredient.name)
+    assert ingredient is not None
+
 
 
 @pytest.mark.django_db
-def test_add_measurement_url(client):
+def test_add_measurement_url(client, user, ingredientmeasurement):
     response = client.get('/add_measurement/')
     assert response.status_code == 302
+    assert response.url == ('/login/?next=/add_measurement/')
+    client.force_login(user)
+    response1 = client.get('/add_measurement/')
+    assert response1.status_code == 200
+    response2 = client.post(reverse('add_measurement'), ingredientmeasurement=ingredientmeasurement)
+    assert response2.status_code == 200
+    assert Ingredient.objects.get(id=ingredientmeasurement.id)
+    assert ingredientmeasurement is not None
 
 
