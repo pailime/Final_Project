@@ -28,8 +28,8 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='templates/Dish_Helper_app/logout.html'), name='logout'),
     path('register/', ProfileRegisterView.as_view(), name='register'),
     path('add_meal/', AddMealView.as_view(template_name='templates/Dish_Helper_app/meal_form.html'), name='add_meal'),
-    path('add_type/', AddTypeOfMealView.as_view(), name='add_type'),
-    path('add_ingredient/', AddIngredientView.as_view(), name='add_ingredient'),
-    path('add_measurement/', AddIngredientMeasurementView.as_view(), name='add_measurement'),
+    path('add_type/', AddTypeOfMealView.as_view(template_name='templates/Dish_Helper_app/typeofmeal_form.html'), name='add_type'),
+    path('add_ingredient/', AddIngredientView.as_view(template_name='templates/Dish_Helper_app/ingredient_form.html'), name='add_ingredient'),
+    path('add_measurement/', AddIngredientMeasurementView.as_view(template_name='templates/Dish_Helper_app/ingredientmeasurement_form.html'), name='add_measurement'),
     path('mealdetail/<int:id>/', MealDetailView.as_view(), name='mealdetail'),
 ]

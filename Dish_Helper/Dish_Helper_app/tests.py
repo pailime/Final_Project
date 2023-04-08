@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.test import Client
+from django.http import HttpResponse
 
 
 @pytest.fixture
@@ -33,7 +34,6 @@ def test_login(client, user_data, user):
 
 @pytest.mark.django_db
 def test_set_check_password(user):
-    # user.set_password("new-password")
     assert user.check_password('testpass') is True
     assert user.check_password('testpass1') is False
 
@@ -73,7 +73,7 @@ def user_one(db, new_user_one):
 
 def test_new_user(user_one):
     assert user_one.username == 'testuser'
-    # assert user_one.password == 'password'
+    assert user_one.check_password('password')
     assert user_one.first_name == 'somename'
     assert user_one.last_name == 'somelast'
     assert user_one.email == 'whatever@test.com'
@@ -81,12 +81,47 @@ def test_new_user(user_one):
     assert user_one.is_active
 
 
-class AddMealViewTest(TestCase):
-    def test_view_url_at_desired_location(self):
-        response = self.client.get('/add_meal/')
-        self.assertEqual(response.status_code, 200)
+@pytest.mark.django_db
+def test_add_meal(client, user_data):
+    response = client.get('/add_meal/')
+    assert response.status_code == 200
+    response2 = client.get('')
+    assert response2.status_code == 200
 
-    def test_view_url_reverse(self):
-        response = self.client.get(reverse('base'))
-        self.assertEqual(response.status_code, 200)
+# @pytest.mark.django_db
+# def test_add_meal_reverse(client):
+#     response2 = client.get(reverse('base'))
+#     assert response.status_code == 200
 
+
+@pytest.mark.django_db
+def test_add_type_url(client):
+    response = client.get('/add_type/')
+    assert response.status_code == 200
+
+@pytest.mark.django_db
+def test_add_type_reverse(client):
+    response = client.get(reverse('base'))
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_add_ingredient_url(client):
+    response = client.get('/add_ingredient/')
+    assert response.status_code == 200
+
+@pytest.mark.django_db
+def test_add_ingredient_reverse(client):
+    response = client.get(reverse('base'))
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_add_measurement_url(client):
+    response = client.get('/add_measurement/')
+    assert response.status_code == 200
+
+@pytest.mark.django_db
+def test_add_measurement_reverse(client):
+    response = client.get(reverse('base'))
+    assert response.status_code == 200
