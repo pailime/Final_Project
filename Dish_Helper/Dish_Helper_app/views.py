@@ -3,6 +3,7 @@ from urllib import request
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
@@ -39,7 +40,7 @@ class MainPageView(View):
 
 
 # View with random meal details for authenticated user
-class MealDetailView(View):
+class MealDetailView(LoginRequiredMixin, View):
     def get(self, request, id):
         meal_id = int(id)
         meal = get_object_or_404(Meal, id=meal_id)
@@ -89,10 +90,11 @@ class ProfileRegisterView(View):
 
 
 # View where authenticated user can add meal
-class AddMealView(CreateView):
+class AddMealView(LoginRequiredMixin, CreateView):
     model = Meal
     fields = ['name', 'description', 'recipe', 'total_time', 'servings', 'measurement']
     success_url = reverse_lazy('base')
+    login_url = reverse_lazy('login')
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -101,10 +103,11 @@ class AddMealView(CreateView):
 
 
 # View where authenticated user can add type of meal
-class AddTypeOfMealView(CreateView):
+class AddTypeOfMealView(LoginRequiredMixin, CreateView):
     model = TypeOfMeal
     fields = ['type_of_meal', 'meal']
     success_url = reverse_lazy('base')
+    login_url = reverse_lazy('login')
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -113,10 +116,11 @@ class AddTypeOfMealView(CreateView):
 
 
 # View where authenticated user can add ingredient
-class AddIngredientView(CreateView):
+class AddIngredientView(LoginRequiredMixin, CreateView):
     model = Ingredient
     fields = ['name', 'calories', 'fat', 'carbs', 'protein']
     success_url = reverse_lazy('base')
+    login_url = reverse_lazy('login')
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -125,10 +129,11 @@ class AddIngredientView(CreateView):
 
 
 # View where authenticated user can add ingredient measurement
-class AddIngredientMeasurementView(CreateView):
+class AddIngredientMeasurementView(LoginRequiredMixin, CreateView):
     model = IngredientMeasurement
     fields = ['weight', 'ingredient_id', 'meal_id']
     success_url = reverse_lazy('base')
+    login_url = reverse_lazy('login')
 
     def form_valid(self, form):
         response = super().form_valid(form)
