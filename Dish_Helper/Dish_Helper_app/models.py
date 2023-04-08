@@ -40,10 +40,10 @@ class TypeOfMeal(models.Model):
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=128, unique=True)
-    calories = models.PositiveSmallIntegerField()
-    fat = models.PositiveSmallIntegerField()
-    carbs = models.PositiveSmallIntegerField()
-    protein = models.PositiveSmallIntegerField()
+    calories = models.PositiveSmallIntegerField(null=True)
+    fat = models.PositiveSmallIntegerField(null=True)
+    carbs = models.PositiveSmallIntegerField(null=True)
+    protein = models.PositiveSmallIntegerField(null=True)
 
     def __str__(self):
         return self.name
