@@ -11,10 +11,10 @@ class Profile(models.Model):
 
 class Meal(models.Model):
     name = models.CharField(max_length=128, unique=True)
-    description = models.TextField()
-    recipe = models.TextField()
-    total_time = models.PositiveIntegerField()
-    servings = models.PositiveSmallIntegerField()
+    description = models.TextField(null=True)
+    recipe = models.TextField(null=True)
+    total_time = models.PositiveIntegerField(null=True)
+    servings = models.PositiveSmallIntegerField(null=True)
     measurement = models.ManyToManyField('Ingredient', through='IngredientMeasurement')
 
     def __str__(self):
