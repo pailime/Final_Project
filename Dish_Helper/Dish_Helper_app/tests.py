@@ -1,9 +1,10 @@
 import pytest
-from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.test import Client
 from django.http import HttpResponse
+from django.contrib.messages import get_messages
+from Dish_Helper_app.models import Meal, TypeOfMeal, Ingredient, IngredientMeasurement
 
 
 @pytest.mark.django_db
@@ -38,11 +39,24 @@ def test_new_user(user_one):
 
 
 @pytest.mark.django_db
-def test_add_meal(client, user_data):
-    response = client.get('/add_meal/')
-    assert response.status_code == 302
-    response2 = client.get('')
-    assert response2.status_code == 200
+def test_home_page(client, user):
+    response = client.get('')
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_add_meal(client, user, meal):
+    response1 = client.get('/add_meal/')
+    assert response1.status_code == 302
+    assert response1.url == ('/login/?next=/add_meal/')
+    client.force_login(user)
+    response3 = client.get('/add_meal/')
+    assert response3.status_code == 200
+    response4 = client.post(reverse('add_meal'), meal=meal)
+    assert response4.status_code == 200
+    assert Meal.objects.get(name=meal.name)
+    assert meal is not None
+
 
 
 @pytest.mark.django_db
@@ -61,3 +75,5 @@ def test_add_ingredient_url(client):
 def test_add_measurement_url(client):
     response = client.get('/add_measurement/')
     assert response.status_code == 302
+
+
