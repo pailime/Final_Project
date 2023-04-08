@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.test import Client
 from django.http import HttpResponse
 from faker import Faker
+from Dish_Helper_app.models import Meal, TypeOfMeal, Ingredient, IngredientMeasurement
 
 fake = Faker()
 
@@ -59,12 +60,12 @@ def user_one(db, new_user_one):
 @pytest.fixture
 def meal():
     return Meal.objects.create(
-        name=fake.words(nb=3),
+        name=fake.words(),
         description=fake.sentence(),
-        recipe=fake.sentence(nb=3),
+        recipe=fake.sentence(),
         total_time=fake.random_int(min=10, max=50),
         servings=fake.random_int(min=1, max=10),
-        measurement=Ingredient.objects.create(name=fake.word())
+        # measurement=Ingredient.objects.create(name=fake.word())
     )
 
 
