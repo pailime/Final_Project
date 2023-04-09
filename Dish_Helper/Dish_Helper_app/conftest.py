@@ -51,7 +51,9 @@ def new_user_one(db):
 
 @pytest.fixture
 def user_one(db, new_user_one):
-    return new_user_one('testuser', 'password', 'somename', 'somelast', 'whatever@test.com', is_superuser='False', is_active='True')
+    return new_user_one(
+        'testuser', 'password', 'somename', 'somelast', 'whatever@test.com', is_superuser='False', is_active='True'
+    )
 
 
 @pytest.fixture
@@ -91,4 +93,3 @@ def ingredientmeasurement():
         meal_id=Meal.objects.create(name=fake.word()),
         ingredient_id=Ingredient.objects.create(name=fake.word())
     )
-
