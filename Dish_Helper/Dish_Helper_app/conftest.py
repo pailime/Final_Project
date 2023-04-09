@@ -62,7 +62,6 @@ def meal():
         recipe=fake.sentence(),
         total_time=fake.random_int(min=10, max=50),
         servings=fake.random_int(min=1, max=10),
-        #measurement=Ingredient.objects.create(name=fake.word())
     )
 
 
