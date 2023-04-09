@@ -1,9 +1,6 @@
 import pytest
-from django.test import TestCase
-from django.urls import reverse
 from django.contrib.auth.models import User
 from django.test import Client
-from django.http import HttpResponse
 from faker import Faker
 from Dish_Helper_app.models import Meal, TypeOfMeal, Ingredient, IngredientMeasurement
 
@@ -86,6 +83,7 @@ def ingredient():
         carbs=fake.random_int(min=1, max=500),
         protein=fake.random_int(min=1, max=500),
     )
+
 
 @pytest.fixture
 def ingredientmeasurement():
