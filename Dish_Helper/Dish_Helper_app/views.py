@@ -233,12 +233,14 @@ class AddIngredientView(LoginRequiredMixin, CreateView):
 class AddIngredientMeasurementView(LoginRequiredMixin, CreateView):
     """
     View for adding a new IngredientMeasurement object via a form submission.
-    This view allows authenticated users to create new IngredientMeasurement objects by submitting a form with the required data.
+    This view allows authenticated users to create new IngredientMeasurement objects by submitting a form with the
+    required data.
     The form includes fields for the IngredientMeasurement weight, ingredient_id and meal_id.
 
     Attributes:
         model (IngredientMeasurement): The model class for creating new Ingredient objects.
-        fields (list of str): The list of fields from the IngredientMeasurement model that should be included in the form.
+        fields (list of str): The list of fields from the IngredientMeasurement model that should be included in
+                              the form.
         success_url (str): The URL to redirect to after a successful form submission.
         login_url (str): The URL to redirect to if a user attempts to access this view while not authenticated.
 
