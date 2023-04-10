@@ -25,6 +25,25 @@ def test_profile_login_view(client, user_data, user):
 
 
 @pytest.mark.django_db
+def test_profile_register_view(client, user_one, user_data):
+    """
+    Test that a new user is created with the expected attributes.
+
+    :param user_one: A fixture that creates a user with the given credentials.
+    :type user_one: django.contrib.auth.models.User
+    """
+    assert user_one.username == 'testuser'
+    assert user_one.check_password('password')
+    assert user_one.first_name == 'somename'
+    assert user_one.last_name == 'somelast'
+    assert user_one.email == 'whatever@test.com'
+    assert user_one.is_superuser
+    assert user_one.is_active
+    response = client.get('/register/')
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_set_check_password(user):
     """
     Test that a user's password can be set and checked correctly.
@@ -42,23 +61,6 @@ def test_set_check_user(user):
     Test that a user's username is set correctly.
     """
     assert user.username == 'testuser'
-
-
-@pytest.mark.django_db
-def test_profile_register_view(user_one):
-    """
-    Test that a new user is created with the expected attributes.
-
-    :param user_one: A fixture that creates a user with the given credentials.
-    :type user_one: django.contrib.auth.models.User
-    """
-    assert user_one.username == 'testuser'
-    assert user_one.check_password('password')
-    assert user_one.first_name == 'somename'
-    assert user_one.last_name == 'somelast'
-    assert user_one.email == 'whatever@test.com'
-    assert user_one.is_superuser
-    assert user_one.is_active
 
 
 @pytest.mark.django_db
@@ -119,7 +121,7 @@ def test_add_meal_view(client, user, meal, user_data):
 
 
 @pytest.mark.django_db
-def test_add_type(client, user, type_of_meal, user_data):
+def test_add_type_view(client, user, type_of_meal, user_data):
     """
     This test case checks the add type functionality by testing the status code of the responses when trying to access
     the add type page both authenticated and unauthenticated, making a post request with a type_of_meal object to create
@@ -143,7 +145,7 @@ def test_add_type(client, user, type_of_meal, user_data):
 
 
 @pytest.mark.django_db
-def test_add_ingredient(client, user, ingredient, user_data):
+def test_add_ingredient_view(client, user, ingredient, user_data):
     """
     This test case checks the add ingredient functionality by testing the status code of the responses when trying to
     access the add ingredient page both authenticated and unauthenticated, making a post request with an ingredient
@@ -167,7 +169,7 @@ def test_add_ingredient(client, user, ingredient, user_data):
 
 
 @pytest.mark.django_db
-def test_add_measurement(client, user, ingredientmeasurement):
+def test_add_measurement_view(client, user, ingredientmeasurement):
     """
     This test case checks the add measurement functionality by testing the status code of the responses when trying to
     access the add measurement page both authenticated and unauthenticated, making a post request with an
