@@ -10,6 +10,70 @@ from .forms import UserRegisterForm
 from .models import Meal, TypeOfMeal, Ingredient, IngredientMeasurement
 
 
+class ProfileLoginView(FormView):
+    """
+    View for handling user login via a form submission.
+    This view displays a form where users can enter their username and password.
+    Upon form submission, the view attempts to authenticate the user with Django's authentication system.
+    If authentication is successful, the user is logged in and redirected to the 'base' URL.
+    If authentication fails, an error message is displayed and the user is prompted to try again.
+
+    Attributes:
+        template_name (str): The path to the template for this view.
+        success_url (str): The URL to redirect to upon successful form submission.
+
+    Methods:
+        form_valid: Handle a valid form submission.
+    """
+    template_name = 'templates/Dish_Helper_app/profile_form.html'
+    success_url = 'base'
+
+    def form_valid(self, form):
+        user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+        if user is not None:
+            login(self, request, user)
+            messages.success(self.request, "You've been logged in")
+        return super().form_valid(form)
+
+
+class ProfileRegisterView(View):
+    """
+    View for handling user registration via a form submission.
+    This view displays a form where users can enter their desired username, email address, and password.
+    Upon form submission, the view attempts to validate the form data.
+    If validation is successful, the view creates a new user account and redirects the user to the 'base' URL.
+    If validation fails, error messages are displayed and the user is prompted to try again.
+    """
+    def post(self, request):
+        """
+        Handle a POST request to register a new user account.
+
+        :param request: The HTTP request object.
+        :return: A redirect response to the home page if registration is successful,
+                 or a redirect response to the registration page if registration fails.
+        """
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your account has been created! You are now able to log in.')
+            return redirect('base')
+        else:
+            error_messages = list(form.errors.values())
+            for message in error_messages:
+                messages.error(request, message)
+            return redirect('register')
+
+    def get(self, request):
+        """
+        Display the user registration form.
+        :param request: the HTTP request object.
+        :return: the HTTP response object with the rendered register.html template.
+        """
+        form = UserRegisterForm()
+        context = {'form': form}
+        return render(request, 'templates/Dish_Helper_app/register.html', context)
+
+
 class MainPageView(View):
     """
     View for the home page of the Dish Helper app.
@@ -83,70 +147,6 @@ class MealDetailView(LoginRequiredMixin, View):
             'measure': measure
         }
         return render(request, 'templates/Dish_Helper_app/meal_detail.html', context)
-
-
-class ProfileLoginView(FormView):
-    """
-    View for handling user login via a form submission.
-    This view displays a form where users can enter their username and password.
-    Upon form submission, the view attempts to authenticate the user with Django's authentication system.
-    If authentication is successful, the user is logged in and redirected to the 'base' URL.
-    If authentication fails, an error message is displayed and the user is prompted to try again.
-
-    Attributes:
-        template_name (str): The path to the template for this view.
-        success_url (str): The URL to redirect to upon successful form submission.
-
-    Methods:
-        form_valid: Handle a valid form submission.
-    """
-    template_name = 'templates/Dish_Helper_app/profile_form.html'
-    success_url = 'base'
-
-    def form_valid(self, form):
-        user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-        if user is not None:
-            login(self, request, user)
-            messages.success(self.request, "You've been logged in")
-        return super().form_valid(form)
-
-
-class ProfileRegisterView(View):
-    """
-    View for handling user registration via a form submission.
-    This view displays a form where users can enter their desired username, email address, and password.
-    Upon form submission, the view attempts to validate the form data.
-    If validation is successful, the view creates a new user account and redirects the user to the 'base' URL.
-    If validation fails, error messages are displayed and the user is prompted to try again.
-    """
-    def post(self, request):
-        """
-        Handle a POST request to register a new user account.
-
-        :param request: The HTTP request object.
-        :return: A redirect response to the home page if registration is successful,
-                 or a redirect response to the registration page if registration fails.
-        """
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Your account has been created! You are now able to log in.')
-            return redirect('base')
-        else:
-            error_messages = list(form.errors.values())
-            for message in error_messages:
-                messages.error(request, message)
-            return redirect('register')
-
-    def get(self, request):
-        """
-        Display the user registration form.
-        :param request: the HTTP request object.
-        :return: the HTTP response object with the rendered register.html template.
-        """
-        form = UserRegisterForm()
-        context = {'form': form}
-        return render(request, 'templates/Dish_Helper_app/register.html', context)
 
 
 class AddMealView(LoginRequiredMixin, CreateView):
