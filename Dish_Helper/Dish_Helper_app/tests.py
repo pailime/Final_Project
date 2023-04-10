@@ -42,6 +42,12 @@ def test_set_check_user(user):
 
 
 @pytest.mark.django_db
+def test_profile_login_view(client):
+    response = client.get('/login/')
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_new_user(user_one):
     """
     Test that a new user is created with the expected attributes.
@@ -83,14 +89,14 @@ def test_meal_detail(client, user, meal, user_data):
     response = client.get(f'/mealdetail/{meal.id}/')
     assert response.status_code == 302
     assert response.url == f'/accounts/login/?next=/mealdetail/{meal.id}/'
+    response1 = client.get(f'/mealdetail/{not meal.id}/')
+    assert response1.status_code == 404
+    client.force_login(user)
+    response2 = client.get(f'/mealdetail/{meal.id}/')
+    assert response2.status_code == 200
+    assert client.login(**user_data) is True
     response3 = client.get(f'/mealdetail/{not meal.id}/')
     assert response3.status_code == 404
-    client.force_login(user)
-    response1 = client.get(f'/mealdetail/{meal.id}/')
-    assert response1.status_code == 200
-    assert client.login(**user_data) is True
-    response2 = client.get(f'/mealdetail/{not meal.id}/')
-    assert response2.status_code == 404
 
 
 @pytest.mark.django_db
