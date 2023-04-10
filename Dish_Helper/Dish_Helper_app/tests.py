@@ -25,6 +25,15 @@ def test_profile_login_view(client, user_data, user):
 
 
 @pytest.mark.django_db
+def test_profile_logout_view(client):
+    """
+    Test that a user was log out successfully.
+    """
+    response = client.post('/logout/')
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_profile_register_view(client, user_one, user_data):
     """
     Test that a new user is created with the expected attributes.
