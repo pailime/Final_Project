@@ -1,11 +1,12 @@
 import pytest
+from django.contrib.auth import authenticate
 from django.urls import reverse
 from Dish_Helper_app.models import Meal, TypeOfMeal, Ingredient, IngredientMeasurement
 from pytest_django.asserts import assertTemplateUsed
 
 
 @pytest.mark.django_db
-def test_login(client, user_data, user):
+def test_profile_login_view(client, user_data, user):
     """
     Test that a user can log in successfully.
 
@@ -19,6 +20,8 @@ def test_login(client, user_data, user):
     assert response.status_code == 302
     assert response.url == reverse('base')
     assert client.login(**user_data) is True
+    assert authenticate(username=user_data['username'], password=user_data['password']) == user
+    assert client.session['_auth_user_id'] == str(user.pk)
 
 
 @pytest.mark.django_db
@@ -42,13 +45,7 @@ def test_set_check_user(user):
 
 
 @pytest.mark.django_db
-def test_profile_login_view(client):
-    response = client.get('/login/')
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_new_user(user_one):
+def test_profile_register_view(user_one):
     """
     Test that a new user is created with the expected attributes.
 
@@ -65,7 +62,7 @@ def test_new_user(user_one):
 
 
 @pytest.mark.django_db
-def test_main_page(client, user, meal):
+def test_main_page_view(client, user, meal):
     """
     Test that the main page view returns a 200 status code and renders the correct template.
     Also tests that the response contains the correct context data.
@@ -81,7 +78,7 @@ def test_main_page(client, user, meal):
 
 
 @pytest.mark.django_db
-def test_meal_detail(client, user, meal, user_data):
+def test_meal_detail_view(client, user, meal, user_data):
     """
     Test that the meal detail view returns the correct HTTP status codes and templates,
     and that unauthorized users are redirected to the login page.
@@ -100,7 +97,7 @@ def test_meal_detail(client, user, meal, user_data):
 
 
 @pytest.mark.django_db
-def test_add_meal(client, user, meal, user_data):
+def test_add_meal_view(client, user, meal, user_data):
     """
     This test case checks the add meal functionality by testing the status code of the responses when trying to access
     the add meal page both authenticated and unauthenticated, making a post request with a meal object to create a new
