@@ -2,11 +2,11 @@
 
 {% block content %}
     <h3>Name: {{ meal.name }}</h3>
-    <p><b>Description:</b> {{ meal.description }}</p>
-    <p><b>Recipe:</b> {{ meal.recipe }}</p>
-    <p><b>Total time:</b> {{ meal.total_time }}</p>
-    <p><b>Servings:</b> {{ meal.servings }}</p>
-    <p><b>Type of meal:</b> {{ type.get_type_of_meal_display }}</p>
+        <p><b>Description:</b> {{ meal.description }}</p>
+        <p><b>Recipe:</b> {{ meal.recipe }}</p>
+        <p><b>Total time:</b> {{ meal.total_time }}</p>
+        <p><b>Servings:</b> {{ meal.servings }}</p>
+        <p><b>Type of meal:</b> {{ type.get_type_of_meal_display }}</p>
     <h4>Ingredients:</h4>
     <ul>
         {% for ingredient in ingredients %}
